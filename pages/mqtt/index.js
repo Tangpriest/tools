@@ -1,5 +1,4 @@
 import { getMqttClientInfo } from "@/utils/mqtt";
-import "bootstrap/dist/css/bootstrap.min.css";
 import mqtt from "mqtt";
 import { useState } from "react";
 import MqttSettingsDialog from "./components/mqtt-dialog";
@@ -11,35 +10,32 @@ const MqttDebugTool = () => {
   const [message, setMessage] = useState("");
   const [receivedMessages, setReceivedMessages] = useState([]);
   const [mqttSettingsOpen, setMqttSettingsOpen] = useState(false);
+  const [connect, setConnect] = useState(false)
 
   const openSettings = () => {
     setMqttSettingsOpen(true)
   }
 
   const handleConnect = () => {
-    
-
-    const mqttConfig = 
+    const mqttConfig =
     {
       mqttServerAddress: window.localStorage.getItem("mqttServerAddress"),
-      mqttGroupId : window.localStorage.getItem("mqttGroupId"),
-      mqttPublicKey : window.localStorage.getItem("mqttPublicKey"),
-      mqttPrivateKey : window.localStorage.getItem("mqttPrivateKey")
+      mqttGroupId: window.localStorage.getItem("mqttGroupId"),
+      mqttPublicKey: window.localStorage.getItem("mqttPublicKey"),
+      mqttPrivateKey: window.localStorage.getItem("mqttPrivateKey")
     }
 
     const {
       url,
       config
-    } = getMqttClientInfo(username,mqttConfig)
+    } = getMqttClientInfo(username, mqttConfig)
 
     console.log(config)
 
-    if(!mqttConfig.mqttServerAddress || !mqttConfig.mqttGroupId || !mqttConfig.mqttPublicKey || !mqttConfig.mqttPrivateKey){
+    if (!mqttConfig.mqttServerAddress || !mqttConfig.mqttGroupId || !mqttConfig.mqttPublicKey || !mqttConfig.mqttPrivateKey) {
       alert("Please set MQTT settings first")
       return
     }
-
-    console.log(mqttConfig)
 
     const newClient = mqtt.connect(url, config);
 
@@ -48,6 +44,7 @@ const MqttDebugTool = () => {
     newClient.on("connect", () => {
       console.log("Connected to MQTT server");
       alert("Connected to MQTT server")
+      setConnect(true)
     });
 
     newClient.on("message", (topic, message) => {
@@ -60,6 +57,7 @@ const MqttDebugTool = () => {
     newClient.on("error", (err) => {
       console.error("Error connecting to MQTT server:", err);
       alert("Error connecting to MQTT server:", err)
+      setConnect(false)
     });
   };
 
@@ -68,6 +66,8 @@ const MqttDebugTool = () => {
     setClient(null);
     console.log("Disconnected from MQTT server");
     alert("Disconnected from MQTT server")
+    setConnect(false)
+
   };
 
   const handleSubscribe = () => {
@@ -86,7 +86,10 @@ const MqttDebugTool = () => {
     <div className="container" style={{ marginTop: 50 }}>
       <div className="row">
         <div className="col-md-6">
-          <h2>Connect to MQTT Server</h2>
+          <h2>
+            Connect to MQTT Server
+          </h2>
+
           <form>
             <div className="mb-3">
               <label htmlFor="username" className="form-label">
@@ -126,6 +129,17 @@ const MqttDebugTool = () => {
               OpenSettings
             </button>
           </form>
+
+          {/* <div style={{
+            display: 'flex',
+            alignItems: 'center'
+          }}>
+            <h3>Connection Status</h3>
+            {connect ?
+               <span className="badge bg-success">Connected</span> :
+               <span className="badge bg-danger">Disconnected</span>
+            }
+          </div> */}
         </div>
         <div className="col-md-6">
           <h2>Subscribe to Topic</h2>
