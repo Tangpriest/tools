@@ -21,6 +21,18 @@ const MqttSettingsDialog = ({ isOpen, onClose }) => {
     setPrivateKey(window.localStorage.getItem("mqttPrivateKey") || "")
   },[])
 
+  const copy = () => {
+    const text = `{
+      "serverAddress": "${serverAddress}",
+      "groupId": "${groupId}",
+      "publicKey": "${publicKey}",
+      "privateKey": "${privateKey}"
+    }`;
+    navigator.clipboard.writeText(text);
+
+    alert(`Copy Success!`)
+  }
+
   return (
     <div
       className={`modal ${isOpen ? "show" : ""}`}
@@ -89,6 +101,11 @@ const MqttSettingsDialog = ({ isOpen, onClose }) => {
                 value={privateKey}
                 onChange={(e) => setPrivateKey(e.target.value)}
               ></textarea>
+            </div>
+            <div className="mb-3">
+              <button type="button" className="btn btn-primary" onClick={copy}>
+                Cpoy to clipboard
+              </button>
             </div>
           </div>
           <div className="modal-footer">
