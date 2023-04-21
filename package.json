@@ -12,12 +12,17 @@
     "bootstrap": "^5.2.3",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "highlight.js": "^11.7.0",
+    "mocha": "^10.2.0",
     "mqtt": "^4.3.7",
     "next": "13.3.0",
     "openai": "^3.2.1",
+    "prismjs": "^1.29.0",
     "react": "18.2.0",
     "react-bootstrap": "^2.7.4",
     "react-dom": "18.2.0",
-    "react-icons": "^4.8.0"
+    "react-icons": "^4.8.0",
+    "react-markdown": "^8.0.7",
+    "react-syntax-highlighter": "^15.5.0"
   }
 }

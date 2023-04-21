@@ -1,4 +1,9 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
+
+* {
+  font-size: 16px;
+  
+}
 /* 
 :root {
   --max-width: 1100px;

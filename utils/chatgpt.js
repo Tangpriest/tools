@@ -8,12 +8,14 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 async function ask(prompt) {
+
+  return `This is Answer \n \n \n dadadada \n`
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
       prompt,
       temperature: 0.3,
-      max_tokens: 200,
+      max_tokens: 500,
       top_p: 1.0,
       frequency_penalty: 0.0,
       presence_penalty: 0.0,
@@ -25,5 +27,5 @@ async function ask(prompt) {
 }
 
 module.exports = {
-  ask,
-};
+  ask
+}

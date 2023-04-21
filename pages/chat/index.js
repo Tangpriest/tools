@@ -1,22 +1,49 @@
+/* eslint-disable react/jsx-no-duplicate-props */
+/* eslint-disable react/no-children-prop */
 /* eslint-disable react-hooks/exhaustive-deps */
 import { ask } from "@/utils/chatgpt";
-import { useEffect, useState } from "react";
+import Image from "next/image";
+import { useEffect, useRef, useState } from "react";
 import { Button, Col, Container, FormControl, InputGroup, Row } from "react-bootstrap";
+import ReactMarkdown from 'react-markdown';
+import styles from './Chat.module.css';
 
 function ChatHistory({ chatHistory }) {
+
+  const listRef = useRef(null);
+
+  useEffect(() => {
+    listRef.current.scrollTop = listRef.current.scrollHeight;
+  }, [chatHistory]);
+
+  const getBlockStyle = (user) => {
+    if (user === "Q") {
+      return "question_block"
+    } else {
+      return "answer_block"
+    }
+  }
   return (
-    <Container className="mt-5">
+    <div className={styles.block} ref={listRef}>
       {chatHistory.map((item, index) => (
-        <Row key={index} className="mb-3">
-          <Col sm={2}>{item.user}</Col>
-          <Col sm={10}>{item.text}</Col>
-        </Row>
+
+        <div className={`${styles.blockItem} ${styles[getBlockStyle(item.user)]}`} key={index}>
+          <Image src={item.user === 'Q' ? '/boss.png' : '/bot.png'} width={50} height={50} alt="" className={styles.avatar}/>
+          <ReactMarkdown className={styles.markdown}>
+               {item.text}
+           </ReactMarkdown>
+        </div>
+
+        
       ))}
-    </Container>
+    </div>
   );
 }
 
 function ChatInput({ inputValue, setInputValue, handleSend }) {
+
+ 
+  
   const handleKeyDown = (e) => {
     if (e.key === "Enter") {
       handleSend();
@@ -24,7 +51,7 @@ function ChatInput({ inputValue, setInputValue, handleSend }) {
   };
 
   return (
-    <Container className="mt-5">
+    <Container className={`mt-5 ${styles['fixed-bottom']}`}>
       <Row>
         <Col>
           <InputGroup>
@@ -61,6 +88,8 @@ export default function Chat() {
       .join("\n");
     const response = await ask(prompt);
     const answer = response.split("A:").pop();
+
+    console.log(answer)
     const newChatHistory = [...chatHistory, { text: answer, user: "A" }];
     setChatHistory(newChatHistory);
   };
@@ -73,14 +102,14 @@ export default function Chat() {
   }, [chatHistory]);
 
   return (
-    <>
-      <h1 className="text-center mt-5">Chat</h1>
+    <div className={`${styles.container}`}>
+      {/* <h1 className="text-center mt-5" style={{color:'#f5f5f5'}}>ChatGPT</h1> */}
       <ChatHistory chatHistory={chatHistory} />
       <ChatInput
         inputValue={inputValue}
         setInputValue={setInputValue}
         handleSend={handleSend}
       />
-    </>
+    </div>
   );
 }
