@@ -9,7 +9,6 @@ const openai = new OpenAIApi(configuration);
 
 async function ask(prompt) {
 
-  return `This is Answer \n \n \n dadadada \n`
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
