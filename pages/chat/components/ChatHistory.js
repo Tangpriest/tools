@@ -58,12 +58,13 @@ export default function ChatHistory({ chatHistory }) {
   return (
     <div className={styles.block} ref={listRef}>
       {
-        chatHistory.map((item, index) => {
+        chatHistory instanceof Array &&  chatHistory.map((item, index) => {
           return (
             <div className={`${styles.blockItem} ${styles[getBlockStyle(item.user)]}`} key={index}>
               <Image src={item.user === 'Q' ? '/assets/boss.png' : '/assets/bot.png'} width={50} height={50} alt="" className={styles.avatar} />
               {
-                index !== chatHistory.length - 1 || item.user === 'Q' ?
+                index !== chatHistory.length - 1 || item.user === 'Q'
+                  ?
                   <ReactMarkdown className={styles.markdown}>
                     {item.text}
                   </ReactMarkdown>

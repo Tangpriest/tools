@@ -8,9 +8,6 @@ const configuration = new Configuration({
 const openai = new OpenAIApi(configuration);
 
 async function ask(prompt) {
-
-  await new Promise((resolve) => setTimeout(resolve, 2000));
-  return `这是返回的字符串的内容`
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
