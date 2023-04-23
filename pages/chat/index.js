@@ -4,9 +4,9 @@
 import { ask } from "@/utils/chatgpt";
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
-import { Button, Col, Container, FormControl, InputGroup, Row } from "react-bootstrap";
 import ReactMarkdown from 'react-markdown';
 import styles from './Chat.module.css';
+import Intro from './components/view';
 
 function ChatHistory({ chatHistory }) {
 
@@ -28,13 +28,13 @@ function ChatHistory({ chatHistory }) {
       {chatHistory.map((item, index) => (
 
         <div className={`${styles.blockItem} ${styles[getBlockStyle(item.user)]}`} key={index}>
-          <Image src={item.user === 'Q' ? '/boss.png' : '/bot.png'} width={50} height={50} alt="" className={styles.avatar}/>
+          <Image src={item.user === 'Q' ? '/boss.png' : '/bot.png'} width={50} height={50} alt="" className={styles.avatar} />
           <ReactMarkdown className={styles.markdown}>
-               {item.text}
-           </ReactMarkdown>
+            {item.text}
+          </ReactMarkdown>
         </div>
 
-        
+
       ))}
     </div>
   );
@@ -42,47 +42,65 @@ function ChatHistory({ chatHistory }) {
 
 function ChatInput({ inputValue, setInputValue, handleSend }) {
 
- 
-  
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter") {
+  const [isComposing, setIsComposing] = useState(false);
+
+  const handleCompositionStart = () => {
+    setIsComposing(true);
+  }
+
+  const handleCompositionEnd = () => {
+    setIsComposing(false);
+  }
+
+  const handleKeyDown = (event) => {
+    if (isComposing && event.code === 'Enter') {
+      event.preventDefault();
+    } else if (event.code === 'Enter') {
       handleSend();
     }
-  };
+  }
+
 
   return (
-    <Container className={`mt-5 ${styles['fixed-bottom']}`}>
-      <Row>
-        <Col>
-          <InputGroup>
-            <FormControl
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              onKeyDown={handleKeyDown}
-              placeholder="Type your message here..."
-              aria-label="Type your message here..."
-            />
-            <Button variant="primary" onClick={handleSend}>
-              Send
-            </Button>
-          </InputGroup>
-        </Col>
-      </Row>
-    </Container>
+    <div className={styles['fixed-bottom']}>
+      <input
+        className={styles.chatInput}
+        onKeyDown={handleKeyDown}
+        value={inputValue}
+        placeholder="Send a message..."
+        onChange={(e) => setInputValue(e.target.value)}
+        onCompositionStart={handleCompositionStart}
+        onCompositionEnd={handleCompositionEnd}
+      />
+      <Image src={require('./send.svg')} width={24} height={24} alt="" className={styles.icon} onClick={handleSend} />
+    </div>
   );
 }
 
 export default function Chat() {
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
+  const [isHovered, setIsHovered] = useState(false);
+  const [showIntro, setShowIntro] = useState(true);
+
+
+  function handleMouseEnter() {
+    setIsHovered(true);
+  }
+
+  function handleMouseLeave() {
+    setIsHovered(false);
+  }
 
   const handleSend = async () => {
     const newChatHistory = [...chatHistory, { text: inputValue, user: "Q" }];
     setChatHistory(newChatHistory);
     setInputValue("")
+    setShowIntro(false)
   };
 
   const handleAsk = async () => {
+
     const prompt = chatHistory
       .map((item) => `${item.user}: ${item.text}`)
       .join("\n");
@@ -102,8 +120,10 @@ export default function Chat() {
   }, [chatHistory]);
 
   return (
-    <div className={`${styles.container}`}>
-      {/* <h1 className="text-center mt-5" style={{color:'#f5f5f5'}}>ChatGPT</h1> */}
+    <div className={`${styles.container}`} style={{
+      backgroundColor : showIntro ? '#000' : "var(--primary-color)" 
+    }}>
+      <Intro showIntro={showIntro}/>
       <ChatHistory chatHistory={chatHistory} />
       <ChatInput
         inputValue={inputValue}

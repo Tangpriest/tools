@@ -12,6 +12,7 @@
     "bootstrap": "^5.2.3",
     "eslint": "8.38.0",
     "eslint-config-next": "13.3.0",
+    "framer-motion": "^10.12.4",
     "highlight.js": "^11.7.0",
     "mocha": "^10.2.0",
     "mqtt": "^4.3.7",

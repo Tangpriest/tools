@@ -1,9 +1,14 @@
 @import "bootstrap/dist/css/bootstrap.min.css";
+@import '../pages/chat/components/view.css';
 
 * {
   font-size: 16px;
-  
 }
+
+:root{
+  --primary-color: #212328;
+}
+
 /* 
 :root {
   --max-width: 1100px;
