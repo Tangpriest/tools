@@ -1,7 +1,5 @@
 import { AnimatePresence, motion } from "framer-motion";
 
-
-
 const ChatbotIntro = ({ showIntro }) => {
   return (
     <AnimatePresence>
