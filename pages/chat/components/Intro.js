@@ -35,10 +35,7 @@ const ChatbotIntro = ({ showIntro }) => {
             </div>
           </motion.div>
           :
-          <motion.div animate={{ rotate: 360 }} transition={{ duration: 2 }}>
-            <h1 className="site-title" style={{ textIndent: 60 }}>ChatBot</h1>
-
-          </motion.div>
+          <h1 className="site-title" style={{ textIndent: 60 }}>ChatBot</h1>
       }
     </AnimatePresence>
   );

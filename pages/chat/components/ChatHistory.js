@@ -5,34 +5,33 @@ import styles from '../Chat.module.css';
 
 
 
-function TypingEffect({ text }) {
-  const [currentText, setCurrentText] = useState("");
+const TypingEffect = ({ text: str }) => {
+  const [displayStr, setDisplayStr] = useState('');
+  const [currentIndex, setCurrentIndex] = useState(0);
 
   useEffect(() => {
-    let timeoutId;
-    let i = 0;
+    if (currentIndex < str.length) {
+      const timeoutId = setTimeout(() => {
+        setCurrentIndex(currentIndex + 1);
+      }, 200);
+      return () => clearTimeout(timeoutId);
+    }
+  }, [currentIndex, str]);
 
-    const addChar = () => {
-
-      setCurrentText((prevText) => prevText + text[i]);
-      i++;
-
-      if (i < text.length-1) {
-        timeoutId = setTimeout(addChar, 100);
-      }
-    };
-
-    timeoutId = setTimeout(addChar, 100 * Math.random());
-
-    return () => clearTimeout(timeoutId);
-  }, [text]);
+  useEffect(() => {
+    if (currentIndex < str.length) {
+      setDisplayStr(str.slice(0, currentIndex + 1));
+    }
+  }, [currentIndex, str]);
 
   return (
     <ReactMarkdown className={styles.markdown}>
-      {currentText}
+      {displayStr}
     </ReactMarkdown>
-  );
-}
+  )
+};
+
+
 
 export default function ChatHistory({ chatHistory }) {
   const listRef = useRef(null);
@@ -58,26 +57,23 @@ export default function ChatHistory({ chatHistory }) {
 
   return (
     <div className={styles.block} ref={listRef}>
-      {chatHistory.map((item, index) => {
-        if (index !== chatHistory.length - 1 || item.user === 'Q') {
+      {
+        chatHistory.map((item, index) => {
           return (
             <div className={`${styles.blockItem} ${styles[getBlockStyle(item.user)]}`} key={index}>
               <Image src={item.user === 'Q' ? '/assets/boss.png' : '/assets/bot.png'} width={50} height={50} alt="" className={styles.avatar} />
-              <ReactMarkdown className={styles.markdown}>
-                {item.text}
-              </ReactMarkdown>
+              {
+                index !== chatHistory.length - 1 || item.user === 'Q' ?
+                  <ReactMarkdown className={styles.markdown}>
+                    {item.text}
+                  </ReactMarkdown>
+                  :
+                  <TypingEffect text={item.text} />
+              }
             </div>
           )
-        } else {
-          return (
 
-            <div className={`${styles.blockItem} ${styles[getBlockStyle(item.user)]}`} key={index}>
-              <Image src={item.user === 'Q' ? '/assets/boss.png' : '/assets/bot.png'} width={50} height={50} alt="" className={styles.avatar} />
-              <TypingEffect text={item.text} />
-            </div>
-          )
-        }
-      })}
+        })}
     </div>
   );
 }

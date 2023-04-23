@@ -3,12 +3,15 @@ import { useEffect, useState } from "react";
 import styles from './Chat.module.css';
 import ChatHistory from "./components/ChatHistory";
 import ChatInput from "./components/ChatInput";
-import ChatbotIntro from "./components/intro";
+import ChatbotIntro from "./components/Intro";
 
-export default function Chat() {
+export default function Chat({ setIsLoading }) {
+
+
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [showIntro, setShowIntro] = useState(true);
+
 
 
   const handleSend = async () => {
@@ -19,14 +22,15 @@ export default function Chat() {
   };
 
   const handleAsk = async () => {
-    
+    setIsLoading(true)
+
     const prompt = chatHistory
       .map((item) => `${item.user}: ${item.text}`)
       .join("\n");
     const response = await ask(prompt);
+    setIsLoading(false)
     const answer = response.split("A:").pop();
 
-    console.log(answer)
     const newChatHistory = [...chatHistory, { text: answer, user: "A" }];
     setChatHistory(newChatHistory);
   };
@@ -40,9 +44,9 @@ export default function Chat() {
 
   return (
     <div className={`${styles.container}`} style={{
-      backgroundColor : showIntro ? '#000' : "var(--primary-color)" 
+      backgroundColor: showIntro ? '#000' : "var(--primary-color)"
     }}>
-      <ChatbotIntro showIntro={showIntro}/>
+      <ChatbotIntro showIntro={showIntro} />
       <ChatHistory chatHistory={chatHistory} />
       <ChatInput
         inputValue={inputValue}
