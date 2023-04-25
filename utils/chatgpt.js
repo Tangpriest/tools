@@ -7,19 +7,36 @@ const configuration = new Configuration({
 
 const openai = new OpenAIApi(configuration);
 
-async function ask(prompt) {
+async function ask(prompt,settings) {
   try {
-    const response = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt : `Q: 我的名字叫黄亮，你记住了吗？ A: 嗯，我知道了
-      ${prompt}`,
-      temperature: 0.3,
-      max_tokens: 500,
-      top_p: 1.0,
-      frequency_penalty: 1.0,
-      presence_penalty: 1.0,
-    });
-    return response.data.choices[0].text.trim();
+    const conversation = {
+      ...{
+        model: "text-davinci-003",
+        prompt: prompt,
+        max_tokens: 500,
+        temperature: 0.3,
+        top_p: 1.0,
+        frequency_penalty: 1.0,
+        presence_penalty: 1.0,
+      },
+      ...settings
+    }
+
+    console.log(conversation)
+
+    // const response = await openai.createCompletion({
+    //   model: "text-davinci-003",
+    //   prompt: prompt,
+    //   max_tokens: 500,
+
+    //   temperature: 0.3,
+    //   top_p: 1.0,
+    //   frequency_penalty: 1.0,
+    //   presence_penalty: 1.0,
+    // });
+    // return response.data.choices[0].text.trim();
+
+    return (`返回的内容`)
   } catch (error) {
     throw new Error(`Failed to get response from OpenAI API: ${error.message}`);
   }

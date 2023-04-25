@@ -23,13 +23,49 @@ export default function Chat({ setIsLoading }) {
     setShowIntro(false)
   };
 
+  /**
+   * get user settings from localstorage
+   * @returns 
+   */
+  const getUserSettings = () => {
+    const userSettings = JSON.parse(window.localStorage.getItem('userSettings')) || {
+      presetValue: "",
+      temperature: 50,
+      top_p: 50,
+      frequency_penalty: 50,
+      presence_penalty: 50
+    }
+
+    return ({
+      presetValue : userSettings.presetValue || '',
+      settings :  {
+        temperature : userSettings.temperature / 100,
+        top_p : userSettings.top_p / 100,
+        frequency_penalty : userSettings.frequency_penalty / 100,
+        presence_penalty : userSettings.presence_penalty / 100
+      }
+    })
+  }
+
+ 
   const handleAsk = async () => {
     setIsLoading(true)
 
-    const prompt = chatHistory
+    let prompt = chatHistory
       .map((item) => `${item.user}: ${item.text}`)
       .join("\n");
-    const response = await ask(prompt);
+
+
+    const {presetValue,settings} = getUserSettings()
+
+    if(presetValue){
+      prompt = `
+      Q : ${presetValue}
+      A : 我知道了。
+      ${prompt}
+      `
+    }
+    const response = await ask(prompt,settings);
     setIsLoading(false)
     const answer = response.split("A:").pop();
 

@@ -92,7 +92,7 @@ function MyForm() {
         id="drag-bar-3"
         name="drag-bar-3"
         min="0"
-        max="100"
+        max="200"
         value={frequency_penalty}
         onChange={event => setFrequency(event.target.value)}
         className={styles.dragBar}
@@ -104,7 +104,7 @@ function MyForm() {
         id="drag-bar-3"
         name="drag-bar-3"
         min="0"
-        max="100"
+        max="200"
         value={presence_penalty}
         onChange={event => setPresence(event.target.value)}
         className={styles.dragBar}
