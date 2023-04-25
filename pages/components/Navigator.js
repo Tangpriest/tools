@@ -2,24 +2,24 @@ import Image from "next/image"
 import { useRouter } from "next/router"
 import styles from '../../styles/Home.module.css'
 
-export default function Navigator() {
+export default function Navigator({ setIsLoginVisible, userInfo }) {
 
   const menus = [
     {
       key: 'chat',
-      page : 'chat/new',
+      page: 'chat/new',
       icon: '/assets/chat.svg',
       name: 'Chat'
     },
     {
       key: 'settings',
-      page : 'settings',
+      page: 'settings',
       icon: '/assets/settings.svg',
       name: 'Settings'
     },
     {
       key: 'account',
-      page : 'account',
+      page: 'account',
       icon: '/assets/account.svg',
       name: 'Account'
     }
@@ -27,7 +27,7 @@ export default function Navigator() {
 
   const router = useRouter()
   const { pathname, query } = router
-  
+
   return (
     <div className={styles.menu}>
       <div className={styles.logo}>CH</div>
@@ -42,7 +42,20 @@ export default function Navigator() {
             </div>
           ))
         }
+
       </div>
+      <div onClick={() => {
+        if (userInfo) {
+          router.push(`/account`)
+        } else {
+          setIsLoginVisible(true)
+        }
+      }} className={styles.userInfo}>
+        {
+          userInfo ? userInfo.name : 'Login'
+        }
+      </div>
+
     </div>
   )
 }

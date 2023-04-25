@@ -1,12 +1,12 @@
 import Navigator from "../components/Navigator"
 
-export default function Chat(){
+export default function Chat({ setIsLoginVisible, userInfo }) {
   return (
     <div className='pageContainer'>
-      <Navigator />
+      <Navigator setIsLoginVisible={setIsLoginVisible} userInfo={userInfo} />
       <div className='pageMain'>
-        
+
       </div>
-  </div>
+    </div>
   )
 }

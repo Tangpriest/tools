@@ -7,7 +7,7 @@ function MyForm() {
   const [temperature, setTemperature] = useState(50);
   const [top_p, setTop] = useState(50);
   const [frequency_penalty, setFrequency] = useState(50);
-  const [presence_penalty,setPresence] = useState(50);
+  const [presence_penalty, setPresence] = useState(50);
 
   const handlePresetValueChange = (event) => {
     setPresetValue(event.target.value);
@@ -38,16 +38,16 @@ function MyForm() {
     setPresence(50);
   }
 
-  useEffect(()=>{
+  useEffect(() => {
     const userSettings = JSON.parse(window.localStorage.getItem('userSettings'));
-    if(userSettings){
+    if (userSettings) {
       setPresetValue(userSettings.presetValue);
       setTemperature(userSettings.temperature);
       setTop(userSettings.top_p);
       setFrequency(userSettings.frequency_penalty);
       setPresence(userSettings.presence_penalty);
     }
-  },[])
+  }, [])
 
   return (
     <form onSubmit={handleSubmit} className={styles.form}>
@@ -70,7 +70,7 @@ function MyForm() {
         min="0"
         max="100"
         value={temperature}
-        onChange={ event => setTemperature(event.target.value)}
+        onChange={event => setTemperature(event.target.value)}
         className={styles.dragBar}
       />
 
@@ -118,10 +118,10 @@ function MyForm() {
   );
 }
 
-export default function Chat() {
+export default function Chat({ setIsLoginVisible, userInfo }) {
   return (
     <div className='pageContainer'>
-      <Navigator />
+      <Navigator setIsLoginVisible={setIsLoginVisible} userInfo={userInfo}/>
       <div className='pageMain'>
 
         <div className={styles.container}>
