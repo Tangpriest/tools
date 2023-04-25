@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import styles from './Chat.module.css';
 import ChatHistory from "./components/ChatHistory";
 import ChatInput from "./components/ChatInput";
-import ChatbotIntro from "./components/Intro";
+import ChatbotIntro from "./components/ChatbotIntro";
 
 export default function Chat({ setIsLoading }) {
 
@@ -44,7 +44,7 @@ export default function Chat({ setIsLoading }) {
 
   return (
     <div className={`${styles.container}`} style={{
-      backgroundColor: showIntro ? '#000' : "var(--primary-color)"
+      backgroundColor: showIntro ? '#000' : "var(--secondary-color)",
     }}>
       <ChatbotIntro showIntro={showIntro} />
       <ChatHistory chatHistory={chatHistory} />

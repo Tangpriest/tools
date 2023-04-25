@@ -15,8 +15,8 @@ async function ask(prompt) {
       temperature: 0.3,
       max_tokens: 500,
       top_p: 1.0,
-      frequency_penalty: 0.0,
-      presence_penalty: 0.0,
+      frequency_penalty: 1.0,
+      presence_penalty: 1.0,
     });
     return response.data.choices[0].text.trim();
   } catch (error) {

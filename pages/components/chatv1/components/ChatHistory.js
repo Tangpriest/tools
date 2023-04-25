@@ -13,7 +13,7 @@ const TypingEffect = ({ text: str }) => {
     if (currentIndex < str.length) {
       const timeoutId = setTimeout(() => {
         setCurrentIndex(currentIndex + 1);
-      }, 200);
+      }, 50);
       return () => clearTimeout(timeoutId);
     }
   }, [currentIndex, str]);

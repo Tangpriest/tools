@@ -1,14 +1,14 @@
 .container {
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
   align-items: center;
   height: 100vh;
-  /* padding: 0 20px; */
+  width: calc(100% - 300px);
+  position: relative;
 }
 
 .fixed-bottom {
-  position: fixed;
+  position: absolute;
   bottom: 20px;
   width: 80%;
   display: flex;
