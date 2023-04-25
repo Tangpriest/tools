@@ -11,7 +11,8 @@ async function ask(prompt) {
   try {
     const response = await openai.createCompletion({
       model: "text-davinci-003",
-      prompt,
+      prompt : `Q: 我的名字叫黄亮，你记住了吗？ A: 嗯，我知道了
+      ${prompt}`,
       temperature: 0.3,
       max_tokens: 500,
       top_p: 1.0,

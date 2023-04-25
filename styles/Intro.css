@@ -8,12 +8,13 @@
   left: 0;
   right: 0;
   bottom: 0; */
-  background-color: #000;
+  /* background-color: #000; */
   z-index: 1000;
   opacity: 1;
   transition: opacity 1s ease-in-out;
   margin-top: 200px;
   color: #d5d5d5;
+  font-family: 'Courier New', Courier, monospace;
 }
 
 .chatbot-intro__title {

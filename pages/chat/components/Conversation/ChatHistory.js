@@ -1,9 +1,7 @@
 import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import ReactMarkdown from 'react-markdown';
-import styles from '../Chat.module.css';
-
-
+import styles from './index.module.css';
 
 const TypingEffect = ({ text: str }) => {
   const [displayStr, setDisplayStr] = useState('');
@@ -63,13 +61,14 @@ export default function ChatHistory({ chatHistory }) {
             <div className={`${styles.blockItem} ${styles[getBlockStyle(item.user)]}`} key={index}>
               <Image src={item.user === 'Q' ? '/assets/boss.png' : '/assets/bot.png'} width={50} height={50} alt="" className={styles.avatar} />
               {
-                index !== chatHistory.length - 1 || item.user === 'Q'
+                index === chatHistory.length - 1 && item.user === 'A' && item.render === true 
                   ?
+                  <TypingEffect text={item.text} />
+                  :
                   <ReactMarkdown className={styles.markdown}>
                     {item.text}
                   </ReactMarkdown>
-                  :
-                  <TypingEffect text={item.text} />
+                  
               }
             </div>
           )

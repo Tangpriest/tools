@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { useState } from "react";
-import styles from '../Chat.module.css';
+import styles from './index.module.css';
 
 export default function ChatInput({ inputValue, setInputValue, handleSend }) {
   

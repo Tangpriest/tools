@@ -1,6 +1,6 @@
-import ChatList from '../components/ChatList'
 import Navigator from "../components/Navigator"
-import ChatComponent from '../components/chatv1/index'
+import ChatComponent from './components/Conversation/index'
+import ChatList from './components/List/ChatList'
 
 export default function Chat({ setIsLoading }) {
   return (

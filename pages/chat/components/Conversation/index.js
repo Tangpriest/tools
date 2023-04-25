@@ -1,17 +1,19 @@
 import { ask } from "@/utils/chatgpt";
+import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import styles from './Chat.module.css';
-import ChatHistory from "./components/ChatHistory";
-import ChatInput from "./components/ChatInput";
-import ChatbotIntro from "./components/ChatbotIntro";
+import ChatHistory from "./ChatHistory";
+import ChatInput from "./ChatInput";
+import ChatbotIntro from "./ChatbotIntro";
+import styles from './index.module.css';
 
 export default function Chat({ setIsLoading }) {
+
+  const router = useRouter()
 
 
   const [inputValue, setInputValue] = useState("");
   const [chatHistory, setChatHistory] = useState([]);
   const [showIntro, setShowIntro] = useState(true);
-
 
 
   const handleSend = async () => {
@@ -31,7 +33,7 @@ export default function Chat({ setIsLoading }) {
     setIsLoading(false)
     const answer = response.split("A:").pop();
 
-    const newChatHistory = [...chatHistory, { text: answer, user: "A" }];
+    const newChatHistory = [...chatHistory, { text: answer, user: "A", render: true }];
     setChatHistory(newChatHistory);
   };
 
@@ -42,10 +44,36 @@ export default function Chat({ setIsLoading }) {
     }
   }, [chatHistory]);
 
+
+  useEffect(() => {
+    const data =
+    {
+      id: 2,
+      title: '计算两个数的和',
+      description: '你能帮我计算吗?',
+      conversation: [
+        {
+          user: 'Q',
+          text: 'Hello, how are you?',
+
+        },
+        {
+          user: 'A',
+          text: 'Hello, how are you?',
+        }
+      ]
+    }
+
+    if (router.query.pid == 2) {
+      setChatHistory(data.conversation)
+      setShowIntro(false)
+    }
+
+
+  }, [router])
+
   return (
-    <div className={`${styles.container}`} style={{
-      backgroundColor: showIntro ? '#000' : "var(--secondary-color)",
-    }}>
+    <div className={`${styles.container}`}>
       <ChatbotIntro showIntro={showIntro} />
       <ChatHistory chatHistory={chatHistory} />
       <ChatInput

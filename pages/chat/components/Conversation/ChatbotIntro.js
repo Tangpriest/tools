@@ -28,10 +28,10 @@ const ChatbotIntro = ({ showIntro }) => {
                 </div>
               </div>
 
-              <video loop muted autoPlay className="video-background">
+              {/* <video loop muted autoPlay className="video-background">
                 <source src="https://cdn.dribbble.com/userupload/2739764/file/original-a87f04d6a44a9fcdb4d0d1e405d215b1.mp4" type="video/mp4" />
                 Your browser does not support the video tag.
-              </video>
+              </video> */}
             </div>
           </motion.div>
           :

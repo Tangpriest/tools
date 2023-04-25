@@ -4,6 +4,7 @@
 
 * {
   font-size: 16px;
+  font-family: var(--font-mono);
 }
 
 :root{
@@ -12,10 +13,11 @@
   'Roboto Mono', 'Oxygen Mono', 'Ubuntu Monospace', 'Source Code Pro',
   'Fira Mono', 'Droid Sans Mono', 'Courier New', monospace;
   --primary-color: #131313;
-  --primary-color-light: #2f343c;
+  --primary-color-light: #45506093;
   --secondary-color: #2c2f3a;
   --tertiary-color: #6b8afd;
   --quaternary-color: #ffffff;
+  --input-shadow : box-shadow: 0 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 
@@ -35,6 +37,7 @@
   background-color: var(--secondary-color);
   border-radius: 20px 0px 0px 20px;
 }
+
 
 /* 
 :root {
